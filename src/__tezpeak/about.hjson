@@ -1,0 +1,8 @@
+{
+    "Description": '''
+tezpeak - tezos baker monitoring
+'''
+    Links: [
+        { website: "https://github.com/tez-capital/tezpeak" }
+    ]
+}

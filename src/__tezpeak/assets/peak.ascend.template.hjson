@@ -1,0 +1,13 @@
+{
+    executable: {{{ROOT_DIR}}}/bin/tezpeak
+    args: [
+        {{#configuration.STARTUP_ARGS__CLI_ARGS}}
+        {{.}}
+        {{/configuration.STARTUP_ARGS__CLI_ARGS}}
+    ]
+    environment: {
+        HOME: {{{ROOT_DIR}}}
+    }
+    restart: always
+    restart_delay: 20
+}

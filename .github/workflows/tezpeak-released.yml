@@ -1,0 +1,51 @@
+name: tezpeak-release-dispatch
+
+on:
+  repository_dispatch:
+    types: ["tezpeak-release"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      commit-ref: ${{ steps.push_changes.outputs.commit_sha }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup eli
+        uses: alis-is/setup-eli@v1
+
+      - name: update version
+        id: update_version
+        env:
+          VERSION: ${{ github.event.client_payload.version }}
+        run: |
+          # git checkout -b "$SOURCE-new-release"
+          eli .github/update-tezpeak-version.lua >> $GITHUB_OUTPUT
+
+      - name: Add & Commit
+        id: push_changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: '[ "src/__tezpeak/constants.lua", "src/specs.json" ]'
+          push: true
+          message: updated-tezpeak-version
+          author_name: TezpeakReleaseDispatch
+          author_email: tezpeak.release.dispatch@alis.is
+          branch: main
+
+      - name: publish
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.update_version.outputs.VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    needs: build
+    uses: ./.github/workflows/release.yml
+    with:
+      commit-ref: ${{needs.build.outputs.commit-ref}}
+    secrets:
+      AIR_ACCESS_TOKEN: ${{ secrets.AIR_ACCESS_TOKEN }}
+      # PB_DISCORD_WEBHOOK: ${{ secrets.PB_DISCORD_WEBHOOK }}
