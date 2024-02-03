@@ -17,7 +17,7 @@ else
 	serviceManager = systemctl
 end
 
-local _services = require"__xtz.services"
+local _services = require"__tezpeak.services"
 _services.remove_all_services() -- cleanup past install
 
 for k, v in pairs(_services.tezpeakServices) do
