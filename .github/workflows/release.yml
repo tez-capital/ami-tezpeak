@@ -72,10 +72,10 @@ jobs:
           event-type: app-release
           client-payload: '{ "id": "${{ steps.repository_info.outputs.ID }}", "repository": "${{github.repository}}", "version": "${{steps.repository_info.outputs.VERSION}}", "package": "${{ steps.release_info.outputs.PACKAGE_SOURCE }}", "sha256": "${{ steps.release_info.outputs.SHA256 }}"}'
 
-      - name: Notify new version available
-        uses: Ilshidur/action-discord@master
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.PB_DISCORD_WEBHOOK }}
-          VERSION: ${{steps.repository_info.outputs.VERSION}}
-        with:
-          args: "New ${{steps.repository_info.outputs.ID}} (ami package) **${{steps.repository_info.outputs.VERSION}}** released. (<https://github.com/tez-capital/ami-tezpeak/releases/tag/${{steps.repository_info.outputs.VERSION}}>)"
+      # - name: Notify new version available
+      #   uses: Ilshidur/action-discord@master
+      #   env:
+      #     DISCORD_WEBHOOK: ${{ secrets.PB_DISCORD_WEBHOOK }}
+      #     VERSION: ${{steps.repository_info.outputs.VERSION}}
+      #   with:
+      #     args: "New ${{steps.repository_info.outputs.ID}} (ami package) **${{steps.repository_info.outputs.VERSION}}** released. (<https://github.com/tez-capital/ami-tezpeak/releases/tag/${{steps.repository_info.outputs.VERSION}}>)"
