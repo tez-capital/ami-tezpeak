@@ -4,6 +4,9 @@ ami_assert(type(_user) == "string", "User not specified...", EXIT_INVALID_CONFIG
 local _ok, _uid = fs.safe_getuid(_user)
 ami_assert(_ok, "Failed to get " .. _user .. "uid - " .. (_uid or ""))
 
+local _ok, _error = fs.safe_mkdirp("data")
+ami_assert(_ok, "Failed to create data directory - " .. tostring(_error) .. "!")
+
 local backend = am.app.get_configuration("backend", os.getenv("ASCEND_SERVICES") ~= nil and "ascend" or "systemd")
 
 local serviceManager = nil

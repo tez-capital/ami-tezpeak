@@ -1,6 +1,6 @@
 {
     "id": "tzc.tezpeak",
-    "version": "0.0.5+0.0.6",
+    "version": "0.0.6+0.0.6",
     "dependencies": [
         {
             "id": "xtz.base"
