@@ -14,7 +14,7 @@ Restart=always
 Environment="HOME={{{ROOT_DIR}}}"
 Environment="TEZPEAK_CONFIG_FILE={{{ROOT_DIR}}}/config.hjson"
 
-WorkingDirectory="{{{ROOT_DIR}}}/data"
+WorkingDirectory={{{ROOT_DIR}}}/data
 
 ExecStart={{{ROOT_DIR}}}/bin/tezpeak {{{configuration.STARTUP_ARGS__CLI_ARGS}}}
 
