@@ -7,6 +7,8 @@
     ]
     environment: {
         HOME: {{{ROOT_DIR}}}
+        TEZPEAK_CONFIG_FILE: {{{ROOT_DIR}}}/config.hjson
+        TEZBAKE_HOME: {{{model.TEZBAKE_HOME}}}}
     }
     working_directory: {{{ROOT_DIR}}}/data
     restart: always

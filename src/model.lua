@@ -42,7 +42,8 @@ am.app.set_model(
             },
             type(am.app.get_configuration("SERVICE_CONFIGURATION")) == "table" and am.app.get_configuration("SERVICE_CONFIGURATION") or {},
             true
-        )
+        ),
+		TEZBAKE_HOME = am.app.get_configuration("TEZBAKE_HOME", path.normalize(path.combine(tostring(os.cwd()), ".."))),
 	},
 	{ merge = true, overwrite = true }
 )
