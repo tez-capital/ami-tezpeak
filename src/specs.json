@@ -1,9 +1,9 @@
 {
-    "version": "0.0.18+0.1.2",
     "id": "tzc.tezpeak",
     "dependencies": [
         {
             "id": "xtz.base"
         }
-    ]
+    ],
+    "version": "0.0.19+0.1.3"
 }
