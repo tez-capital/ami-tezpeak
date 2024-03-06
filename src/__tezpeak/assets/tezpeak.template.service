@@ -1,5 +1,5 @@
 [Unit]
-Description={{{ID}}} tezpay service
+Description={{{ID}}} tezpeak service
 After=network.target
 StartLimitIntervalSec=0
 
