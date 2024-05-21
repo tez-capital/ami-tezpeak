@@ -1,16 +1,6 @@
 local _json = am.options.OUTPUT_FORMAT == "json"
 
-local serviceManager = nil
-if backend == "ascend" then
-	local ok, asctl = am.plugin.safe_get("asctl")
-	ami_assert(ok, "Failed to load asctl plugin")
-	serviceManager = asctl
-else
-	local ok, systemctl = am.plugin.safe_get("systemctl")
-	ami_assert(ok, "Failed to load systemctl plugin")
-	serviceManager = systemctl
-end
-
+local serviceManager = require"__xtz.service-manager"
 local _info = {
 	level = "ok",
 	status = "tezpeak is operational",
