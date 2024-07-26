@@ -1,6 +1,8 @@
-local backend = am.app.get_configuration("backend", os.getenv("ASCEND_SERVICES") ~= nil and "ascend" or "systemd")
+local _user = am.app.get("user", "root")
+ami_assert(type(_user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
 
 local serviceManager = require"__xtz.service-manager"
+serviceManager = serviceManager.with_options({ container = _user })
 local _services = require"__tezpeak.services"
 
 for _, service in pairs(_services.allNames) do

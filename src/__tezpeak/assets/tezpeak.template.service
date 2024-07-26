@@ -1,19 +1,15 @@
 [Unit]
 Description={{{ID}}} tezpeak service
-After=network.target
+After=default.target
 StartLimitIntervalSec=0
 
 [Service]
-User={{{USER}}}
-Group={{{USER}}}
-RestartSec=20
-
 Type=simple
 Restart=always
+RestartSec=20
 
 Environment="HOME={{{ROOT_DIR}}}"
 Environment="TEZPEAK_CONFIG_FILE={{{ROOT_DIR}}}/config.hjson"
-Environment="TEZBAKE_HOME={{{model.TEZBAKE_HOME}}}"
 
 WorkingDirectory={{{ROOT_DIR}}}/data
 

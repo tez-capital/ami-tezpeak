@@ -1,4 +1,8 @@
+local _user = am.app.get("user", "root")
+ami_assert(type(_user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
+
 local serviceManager = require"__xtz.service-manager"
+serviceManager = serviceManager.with_options({ container = _user })
 local _services = require"__tezpeak.services"
 
 log_info("Stopping tezpeak services... this may take few minutes.")

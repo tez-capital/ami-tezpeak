@@ -1,6 +1,9 @@
 local appId = am.app.get("id")
 local tezpeakServiceId = appId .. "-tezpeak"
 
+local _user = am.app.get("user", "root")
+ami_assert(type(_user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
+
 local possibleResidue = { }
 
 local tezpeakServices = {
@@ -16,6 +19,7 @@ local allNames = util.clone(tezpeakServiceNames)
 
 local function remove_all_services()
 	local serviceManager = require"__xtz.service-manager"
+	serviceManager = serviceManager.with_options({ container = _user })
 
 	local all = table.values(tezpeakServiceNames)
 	all = util.merge_arrays(all, possibleResidue)

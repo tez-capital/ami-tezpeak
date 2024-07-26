@@ -10,6 +10,8 @@ ami_assert(_ok, "Failed to create data directory - " .. tostring(_error) .. "!")
 local backend = am.app.get_configuration("backend", os.getenv("ASCEND_SERVICES") ~= nil and "ascend" or "systemd")
 
 local serviceManager = require"__xtz.service-manager"
+serviceManager = serviceManager.with_options({ container = _user })
+
 local _services = require"__tezpeak.services"
 _services.remove_all_services() -- cleanup past install
 

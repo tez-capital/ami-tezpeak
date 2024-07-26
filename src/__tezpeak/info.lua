@@ -1,6 +1,11 @@
 local _json = am.options.OUTPUT_FORMAT == "json"
 
+local _user = am.app.get("user", "root")
+ami_assert(type(_user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
+
 local serviceManager = require"__xtz.service-manager"
+serviceManager = serviceManager.with_options({ container = _user })
+
 local _info = {
 	level = "ok",
 	status = "tezpeak is operational",
