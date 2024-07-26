@@ -12,6 +12,15 @@ local backend = am.app.get_configuration("backend", os.getenv("ASCEND_SERVICES")
 local serviceManager = require"__xtz.service-manager"
 serviceManager = serviceManager.with_options({ container = _user })
 
+--- enable linger if not root
+if _user ~= "root" then
+	local ok, result = proc.safe_exec("loginctl show-user ".. _user .. " --property=Linger=yes")
+	if not ok or result.exitcode ~= 0 or result.stdoutStream == "" then
+		local ok, _, exitcode = os.execute("loginctl enable-linger ".. _user)
+		assert(ok and exitcode == 0, "failed to enable linger for " .. _user .. " - " .. tostring(exitcode))
+	end
+end
+
 local _services = require"__tezpeak.services"
 _services.remove_all_services() -- cleanup past install
 
