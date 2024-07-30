@@ -15,7 +15,7 @@ tezpeak ami package
     "user": "<your username>"
 }
 ```
-4. Run `ami --path=<your app path> setup`
+4. Run `sudo ami --path=<your app path> setup`
    * e.g. `ami --path=/bake-buddy/tezpeak` (path is not required if it would be equal to your CWD)
 5. Create and configure your config.hjson.
 	- your `config.hjson` and other configuration files should be placed next to `app.hjson`
