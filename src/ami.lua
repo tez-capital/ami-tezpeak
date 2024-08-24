@@ -73,9 +73,17 @@ return {
                 }
             },
             action = function(options, _, _, _)
-                if fs.exists('config.hjson') and not options.force then
-                    log_warn('Configuration file already exists. Skipping auto-detection.')
-                    return
+                if fs.exists('config.hjson') then
+                    if not options.force then
+                        log_warn('Configuration file already exists. Skipping auto-detection.')
+                        return
+                    else
+                        log_warn('Configuration file already exists. Will be renamed to config.hjson.bak')
+                        if not os.rename('config.hjson', 'config.hjson.bak') then 
+                            log_error('Failed to rename configuration file. Aborting auto-detection. Please rename the file manually and try again.')
+                            return
+                        end
+                    end
                 end
                 local result = am.execute_external('bin/tezpeak', {}, { injectArgs = { "--root-dir", "..", "--autodetect-configuration", "config.hjson" } })
                 ami_assert(result == 0, "Failed to auto-detect configuration", EXIT_APP_INTERNAL_ERROR)
