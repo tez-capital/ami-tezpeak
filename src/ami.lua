@@ -20,21 +20,21 @@ return {
                 end
 
                 if _noOptions or not _options['no-validate'] then
-                    am.execute('validate', {'--platform'})
+                    am.execute('validate', { '--platform' })
                 end
 
                 if _noOptions or _options.app then
-                    am.execute_extension('__xtz/download-binaries.lua', {contextFailExitCode = EXIT_SETUP_ERROR})
+                    am.execute_extension('__xtz/download-binaries.lua', { contextFailExitCode = EXIT_SETUP_ERROR })
                 end
 
                 if _noOptions and not _options['no-validate'] then
-                    am.execute('validate', {'--configuration'})
+                    am.execute('validate', { '--configuration' })
                 end
 
                 if _noOptions or _options.configure then
-					am.execute_extension('__xtz/create_user.lua', {contextFailExitCode = EXIT_APP_CONFIGURE_ERROR})
+                    am.execute_extension('__xtz/create_user.lua', { contextFailExitCode = EXIT_APP_CONFIGURE_ERROR })
                     am.app.render()
-                    am.execute_extension('__tezpeak/configure.lua', {contextFailExitCode = EXIT_APP_CONFIGURE_ERROR})
+                    am.execute_extension('__tezpeak/configure.lua', { contextFailExitCode = EXIT_APP_CONFIGURE_ERROR })
                 end
                 log_success('tezpeak setup complete.')
             end
@@ -62,17 +62,26 @@ return {
                 log_success('tezpeak app configuration validated.')
             end
         },
+        ["autodetect-configuration"] = {
+            description = "ami 'autodetect-configuration' sub command",
+            summary = 'Auto detects the configuration of the app',
+            action = function(_, _, _, _)
+                local result = am.execute_external('bin/tezpeak', {}, { injectArgs = { "--root-dir", "..", "--autodetect-configuration", "config.hjson" } })
+                ami_assert(result == 0, "Failed to auto-detect configuration", EXIT_APP_INTERNAL_ERROR)
+            end,
+            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+        },
         log = {
             description = "ami 'log' sub command",
             summary = 'Prints logs from services.',
             options = {
                 ["follow"] = {
-                    aliases = {"f"},
+                    aliases = { "f" },
                     description = "Keeps printing the log continuously.",
                     type = "boolean"
                 },
                 ["end"] = {
-                    aliases = {"e"},
+                    aliases = { "e" },
                     description = "Jumps to the end of the log.",
                     type = "boolean"
                 }
@@ -89,10 +98,10 @@ return {
                 ami_assert(_ok, 'Failed to read about file!', EXIT_APP_ABOUT_ERROR)
 
                 local _ok, _about = hjson.safe_parse(_aboutFile)
-                _about['App Type'] = am.app.get({'type', 'id'}, am.app.get('type'))
+                _about['App Type'] = am.app.get({ 'type', 'id' }, am.app.get('type'))
                 ami_assert(_ok, 'Failed to parse about file!', EXIT_APP_ABOUT_ERROR)
                 if am.options.OUTPUT_FORMAT == 'json' then
-                    print(hjson.stringify_to_json(_about, {indent = false, skipkeys = true}))
+                    print(hjson.stringify_to_json(_about, { indent = false, skipkeys = true }))
                 else
                     print(hjson.stringify(_about))
                 end
@@ -102,11 +111,11 @@ return {
             index = 7,
             action = function(_options, _, _, _)
                 if _options.all then
-                    am.execute_extension('__tezpeak/remove-all.lua', {contextFailExitCode = EXIT_RM_ERROR})
-                    am.app.remove(require"__tezpeak/constants".protectedFiles)
+                    am.execute_extension('__tezpeak/remove-all.lua', { contextFailExitCode = EXIT_RM_ERROR })
+                    am.app.remove(require "__tezpeak/constants".protectedFiles)
                     log_success('Application removed.')
                 else
-                    log_warn"only whole tezpeak ami instance can be remoced and requires --all parameter"
+                    log_warn "only whole tezpeak ami instance can be remoced and requires --all parameter"
                 end
                 return
             end
