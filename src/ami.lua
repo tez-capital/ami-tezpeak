@@ -65,7 +65,18 @@ return {
         ["autodetect-configuration"] = {
             description = "ami 'autodetect-configuration' sub command",
             summary = 'Auto detects the configuration of the app',
-            action = function(_, _, _, _)
+            options = {
+                ["force"] = {
+                    aliases = { "f" },
+                    description = "Forces auto-detection even if configuration file exists.",
+                    type = "boolean"
+                }
+            },
+            action = function(options, _, _, _)
+                if fs.exists('config.hjson') and not options.force then
+                    log_warn('Configuration file already exists. Skipping auto-detection.')
+                    return
+                end
                 local result = am.execute_external('bin/tezpeak', {}, { injectArgs = { "--root-dir", "..", "--autodetect-configuration", "config.hjson" } })
                 ami_assert(result == 0, "Failed to auto-detect configuration", EXIT_APP_INTERNAL_ERROR)
             end,
