@@ -7,17 +7,17 @@ if not _ok then
 	return
 end
 
-local _downlaodUrl = nil
+local _downloadUrl = nil
 local _sources = require"__tezpeak/constants".sources
 
 if _platform.OS == "unix" then
-	_downlaodUrl = _sources["linux-x86_x64"]
+	_downloadUrl = _sources["linux-x86_x64"]
 	if _platform.SYSTEM_TYPE:match("[Aa]arch64") then
-		_downlaodUrl = _sources["linux-arm64"]
+		_downloadUrl = _sources["linux-arm64"]
 	end
 end
 
-if _downlaodUrl == nil then
+if _downloadUrl == nil then
 	log_error("Platform not supported!")
 	return
 end
@@ -25,7 +25,7 @@ end
 am.app.set_model(
 	{
 		DOWNLOAD_URLS = {
-			tezpeak = am.app.get_configuration("SOURCE", _downlaodUrl),
+			tezpeak = am.app.get_configuration("SOURCE", _downloadUrl),
 		}
 	},
 	{ merge = true, overwrite = true }
