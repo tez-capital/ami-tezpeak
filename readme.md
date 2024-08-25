@@ -20,6 +20,8 @@ tezpeak ami package
 5. Create and configure your config.hjson.
 	- your `config.hjson` and other configuration files should be placed next to `app.hjson`
 	- refer to [tezpeak readme](https://github.com/tez-capital/tezpeak) for more information about configuration
+    - NOTE: you can autodetect configuration with `ami autodetect-configuration`
+        - if you want to use custom app root directory you can `ami autodetect-configuration --root=<path to app root dir>`
 6. Run `ami --path=<your app path> --help` to investigate available commands
 7. Start tezpeak services with `ami --path=<your app path> start`
 8. Check info about the tezpeak services `ami --path=<your app path> info`
