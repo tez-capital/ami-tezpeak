@@ -70,6 +70,10 @@ return {
                     aliases = { "f" },
                     description = "Forces auto-detection even if configuration file exists.",
                     type = "boolean"
+                },
+                ["root"] = {
+                    description = "directory where are the apps to detect stored.",
+                    type = "string"
                 }
             },
             action = function(options, _, _, _)
@@ -85,7 +89,7 @@ return {
                         end
                     end
                 end
-                local result = am.execute_external('bin/tezpeak', {}, { injectArgs = { "--root-dir", "..", "--autodetect-configuration", "config.hjson" } })
+                local result = am.execute_external('bin/tezpeak', {}, { injectArgs = { "--root-dir", options.root or '..', "--autodetect-configuration", "config.hjson" } })
                 ami_assert(result == 0, "Failed to auto-detect configuration", EXIT_APP_INTERNAL_ERROR)
             end,
             contextFailExitCode = EXIT_APP_INTERNAL_ERROR
