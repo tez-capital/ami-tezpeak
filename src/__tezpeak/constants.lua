@@ -3,7 +3,7 @@ return {
         "config.hjson"
     },
     sources = {
-        ["linux-x86_x64"] = "https://github.com/tez-capital/tezpeak/releases/download/0.5.0-beta/tezpeak-linux-amd64",
-        ["linux-arm64"] = "https://github.com/tez-capital/tezpeak/releases/download/0.5.0-beta/tezpeak-linux-arm64"
+        ["linux-x86_x64"] = "https://github.com/tez-capital/tezpeak/releases/download/0.5.1-beta/tezpeak-linux-amd64",
+        ["linux-arm64"] = "https://github.com/tez-capital/tezpeak/releases/download/0.5.1-beta/tezpeak-linux-arm64"
     }
 }
