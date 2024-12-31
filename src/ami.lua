@@ -5,7 +5,7 @@ return {
             description = "ami 'info' sub command",
             summary = 'Prints runtime info and status of the app',
             action = '__tezpeak/info.lua',
-            contextFailExitCode = EXIT_APP_INFO_ERROR
+            context_fail_exit_code = EXIT_APP_INFO_ERROR
         },
         setup = {
             options = {
@@ -24,7 +24,7 @@ return {
                 end
 
                 if no_options or options.app then
-                    am.execute_extension('__xtz/download-binaries.lua', { contextFailExitCode = EXIT_SETUP_ERROR })
+                    am.execute_extension('__xtz/download-binaries.lua', { context_fail_exit_code = EXIT_SETUP_ERROR })
                 end
 
                 if no_options and not options['no-validate'] then
@@ -32,9 +32,9 @@ return {
                 end
 
                 if no_options or options.configure then
-                    am.execute_extension('__xtz/create_user.lua', { contextFailExitCode = EXIT_APP_CONFIGURE_ERROR })
+                    am.execute_extension('__xtz/create_user.lua', { context_fail_exit_code = EXIT_APP_CONFIGURE_ERROR })
                     am.app.render()
-                    am.execute_extension('__tezpeak/configure.lua', { contextFailExitCode = EXIT_APP_CONFIGURE_ERROR })
+                    am.execute_extension('__tezpeak/configure.lua', { context_fail_exit_code = EXIT_APP_CONFIGURE_ERROR })
                 end
                 log_success('tezpeak setup complete.')
             end
@@ -43,13 +43,13 @@ return {
             description = "ami 'start' sub command",
             summary = 'Starts the tezpeak services',
             action = '__tezpeak/start.lua',
-            contextFailExitCode = EXIT_APP_START_ERROR
+            context_fail_exit_code = EXIT_APP_START_ERROR
         },
         stop = {
             description = "ami 'stop' sub command",
             summary = 'Stops the tezpeak services',
             action = '__tezpeak/stop.lua',
-            contextFailExitCode = EXIT_APP_STOP_ERROR
+            context_fail_exit_code = EXIT_APP_STOP_ERROR
         },
         validate = {
             description = "ami 'validate' sub command",
@@ -89,10 +89,10 @@ return {
                         end
                     end
                 end
-                local result = am.execute_external('bin/tezpeak', {}, { injectArgs = { "--root-dir", options.root or '..', "--autodetect-configuration", "config.hjson" } })
+                local result = am.execute_external('bin/tezpeak', {}, { inject_args = { "--root-dir", options.root or '..', "--autodetect-configuration", "config.hjson" } })
                 ami_assert(result == 0, "Failed to auto-detect configuration", EXIT_APP_INTERNAL_ERROR)
             end,
-            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+            context_fail_exit_code = EXIT_APP_INTERNAL_ERROR
         },
         log = {
             description = "ami 'log' sub command",
@@ -111,7 +111,7 @@ return {
             },
             type = "no-command",
             action = '__tezpeak/log.lua',
-            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+            context_fail_exit_code = EXIT_APP_INTERNAL_ERROR
         },
         about = {
             description = "ami 'about' sub command",
@@ -134,7 +134,7 @@ return {
             index = 7,
             action = function(options, _, _, _)
                 if options.all then
-                    am.execute_extension('__tezpeak/remove-all.lua', { contextFailExitCode = EXIT_RM_ERROR })
+                    am.execute_extension('__tezpeak/remove-all.lua', { context_fail_exit_code = EXIT_RM_ERROR })
                     am.app.remove(require "__tezpeak/constants".protected_files)
                     log_success('Application removed.')
                 else
@@ -147,7 +147,7 @@ return {
             description = "ami 'version' sub command",
             summary = 'shows ami tezpeak and tezpeak versions',
             action = '__tezpeak/version.lua',
-            contextFailExitCode = EXIT_APP_ABOUT_ERROR
+            context_fail_exit_code = EXIT_APP_ABOUT_ERROR
         }
     }
 }
