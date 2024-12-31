@@ -1,5 +1,5 @@
 return {
-    protectedFiles = {
+    protected_files = {
         "config.hjson"
     },
     sources = {

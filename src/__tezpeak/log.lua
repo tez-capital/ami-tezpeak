@@ -1,24 +1,24 @@
-local _options, _, args, _ = ...
+local options, _, args, _ = ...
 
-local _args = table.map(args, function(v) return v.arg end)
-local _services = require("__tezpeak.services")
+local args = table.map(args, function(v) return v.arg end)
+local services = require("__tezpeak.services")
 
-local _toCheck = table.values(_services.allNames)
-if #_args > 0 then
-    _toCheck = {}
-    for _, v in ipairs(_args) do
-        if type(_services.tezpeakServiceNames[v]) == "string" then
-            table.insert(_toCheck, _services.tezpeakServiceNames[v])
+local to_check = table.values(services.all_names)
+if #args > 0 then
+    to_check = {}
+    for _, v in ipairs(args) do
+        if type(services.tezpeak_service_names[v]) == "string" then
+            table.insert(to_check, services.tezpeak_service_names[v])
         end
     end
 end
 
-local _journalctlArgs = { "journalctl" }
-if _options.follow then table.insert(_journalctlArgs, "-f") end
-if _options['end'] then table.insert(_journalctlArgs, "-e") end
-for _, v in ipairs(_toCheck) do
-    table.insert(_journalctlArgs, "-u")
-    table.insert(_journalctlArgs, v)
+local journalctl_args = { "journalctl" }
+if options.follow then table.insert(journalctl_args, "-f") end
+if options['end'] then table.insert(journalctl_args, "-e") end
+for _, v in ipairs(to_check) do
+    table.insert(journalctl_args, "-u")
+    table.insert(journalctl_args, v)
 end
 
-os.execute(string.join(" ", table.unpack(_journalctlArgs)))
+os.execute(string.join(" ", table.unpack(journalctl_args)))

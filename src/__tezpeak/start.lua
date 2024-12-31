@@ -1,15 +1,15 @@
-local _user = am.app.get("user", "root")
-ami_assert(type(_user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
+local user = am.app.get("user", "root")
+ami_assert(type(user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
 
-local serviceManager = require"__xtz.service-manager"
-serviceManager = serviceManager.with_options({ container = _user })
-local _services = require"__tezpeak.services"
+local service_manager = require"__xtz.service-manager"
+service_manager = service_manager.with_options({ container = user })
+local services = require"__tezpeak.services"
 
-for _, service in pairs(_services.allNames) do
+for _, service in pairs(services.all_names) do
 	-- skip false values
 	if type(service) ~= "string" then goto CONTINUE end
-	local _ok, _error = serviceManager.safe_start_service(service)
-	ami_assert(_ok, "Failed to start " .. service .. ".service " .. (_error or ""))
+	local ok, err = service_manager.safe_start_service(service)
+	ami_assert(ok, "Failed to start " .. service .. ".service " .. (err or ""))
 	::CONTINUE::
 end
 

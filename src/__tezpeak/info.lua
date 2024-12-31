@@ -1,12 +1,12 @@
-local _json = am.options.OUTPUT_FORMAT == "json"
+local needs_json_output = am.options.OUTPUT_FORMAT == "json"
 
-local _user = am.app.get("user", "root")
-ami_assert(type(_user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
+local user = am.app.get("user", "root")
+ami_assert(type(user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
 
-local serviceManager = require"__xtz.service-manager"
-serviceManager = serviceManager.with_options({ container = _user })
+local service_manager = require"__xtz.service-manager"
+service_manager = service_manager.with_options({ container = user })
 
-local _info = {
+local info = {
 	level = "ok",
 	status = "tezpeak is operational",
 	version = am.app.get_version(),
@@ -14,24 +14,24 @@ local _info = {
 	services = {}
 }
 
-local _services = require "__tezpeak.services"
-for k, v in pairs(_services.allNames) do
+local services = require "__tezpeak.services"
+for k, v in pairs(services.all_names) do
 	if type(v) ~= "string" then goto CONTINUE end
-	local _ok, _status, _started = serviceManager.safe_get_service_status(v)
-	ami_assert(_ok, "Failed to get status of " .. v .. ".service " .. (_status or ""), EXIT_PLUGIN_EXEC_ERROR)
-	_info.services[k] = {
-		status = _status,
-		started = _started
+	local ok, status, started = service_manager.safe_get_service_status(v)
+	ami_assert(ok, "Failed to get status of " .. v .. ".service " .. (status or ""), EXIT_PLUGIN_EXEC_ERROR)
+	info.services[k] = {
+		status = status,
+		started = started
 	}
-	if _status ~= "running" then
-		_info.status = "One or more tezpeak services is not running!"
-		_info.level = "error"
+	if status ~= "running" then
+		info.status = "One or more tezpeak services is not running!"
+		info.level = "error"
 	end
 	::CONTINUE::
 end
 
-if _json then
-	print(hjson.stringify_to_json(_info, { indent = false }))
+if needs_json_output then
+	print(hjson.stringify_to_json(info, { indent = false }))
 else
-	print(hjson.stringify(_info, { sortKeys = true }))
+	print(hjson.stringify(info, { sortKeys = true }))
 end

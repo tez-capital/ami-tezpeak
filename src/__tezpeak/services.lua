@@ -1,43 +1,43 @@
-local appId = am.app.get("id")
-local tezpeakServiceId = appId .. "-tezpeak"
+local app_id = am.app.get("id")
+local tezpeak_service_id = app_id .. "-tezpeak"
 
-local _user = am.app.get("user", "root")
-ami_assert(type(_user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
+local user = am.app.get("user", "root")
+ami_assert(type(user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
 
-local possibleResidue = { }
+local possible_residues = { }
 
-local tezpeakServices = {
-	[tezpeakServiceId] = am.app.get_configuration("TEZPEAK_SERVICE_FILE", "__tezpeak/assets/tezpeak")
+local tezpeak_services = {
+	[tezpeak_service_id] = am.app.get_configuration("TEZPEAK_SERVICE_FILE", "__tezpeak/assets/tezpeak")
 }
 
-local tezpeakServiceNames = {}
-for k, _ in pairs(tezpeakServices) do
-        tezpeakServiceNames[k:sub((#appId + 2))] = k
+local tezpeak_service_names = {}
+for k, _ in pairs(tezpeak_services) do
+        tezpeak_service_names[k:sub((#app_id + 2))] = k
 end
 
-local allNames = util.clone(tezpeakServiceNames)
+local all_names = util.clone(tezpeak_service_names)
 
 local function remove_all_services()
-	local serviceManager = require"__xtz.service-manager"
-	serviceManager = serviceManager.with_options({ container = _user })
+	local service_manager = require"__xtz.service-manager"
+	service_manager = service_manager.with_options({ container = user })
 
-	local all = table.values(tezpeakServiceNames)
-	all = util.merge_arrays(all, possibleResidue)
+	local all = table.values(tezpeak_service_names)
+	all = util.merge_arrays(all, possible_residues)
 
 	for _, service in ipairs(all) do
 		if type(service) ~= "string" then goto CONTINUE end
-		local _ok, _error = serviceManager.safe_remove_service(service)
-		if not _ok then
-			ami_error("Failed to remove " .. service .. ": " .. (_error or ""))
+		local ok, err = service_manager.safe_remove_service(service)
+		if not ok then
+			ami_error("Failed to remove " .. service .. ": " .. (err or ""))
 		end
 		::CONTINUE::
 	end
 end
 
 return {
-	tezpeakServiceId = tezpeakServiceId,
-	tezpeakServices = tezpeakServices,
-	tezpeakServiceNames = tezpeakServiceNames,
-	allNames = allNames,
+	tezpeak_service_id = tezpeak_service_id,
+	tezpeak_services = tezpeak_services,
+	tezpeak_service_names = tezpeak_service_names,
+	all_names = all_names,
 	remove_all_services = remove_all_services
 }
