@@ -8,12 +8,15 @@ if not ok then
 end
 
 local download_url = nil
+local arc_download_url = nil
 local sources = require"__tezpeak/constants".sources
 
 if platform.OS == "unix" then
-	download_url = sources["linux-x86_x64"]
+	download_url = sources["linux-x86_64"]
+	arc_download_url = sources["arc-linux-x86_64"]
 	if platform.SYSTEM_TYPE:match("[Aa]arch64") then
 		download_url = sources["linux-arm64"]
+		arc_download_url = sources["arc-linux-arm64"]
 	end
 end
 
@@ -22,10 +25,15 @@ if download_url == nil then
 	return
 end
 
+if arc_download_url == nil then
+	log_warn("arc monitoring not supported on this platform.")
+end
+
 am.app.set_model(
 	{
 		DOWNLOAD_URLS = {
 			tezpeak = am.app.get_configuration("SOURCE", download_url),
+			arc = am.app.get_configuration("ARC_SOURCE", arc_download_url),
 		}
 	},
 	{ merge = true, overwrite = true }
