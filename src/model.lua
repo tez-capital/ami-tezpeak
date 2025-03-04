@@ -25,9 +25,7 @@ if download_url == nil then
 	return
 end
 
-if arc_download_url == nil then
-	log_warn("arc monitoring not supported on this platform.")
-end
+
 
 am.app.set_model(
 	{
@@ -41,6 +39,13 @@ am.app.set_model(
 
 local services = require("__tezpeak.services")
 local wanted_binaries = table.keys(services.tezpeak_service_names)
+
+if arc_download_url == nil then
+	log_warn("arc monitoring not supported on this platform.")
+else
+	table.insert(wanted_binaries, "arc")
+end
+
 am.app.set_model(
 	{
 		WANTED_BINARIES = wanted_binaries,
