@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=20
 
-Environment="HOME={{{ROOT_DIR}}}"
+Environment="HOME={{{model.TEZBAKE_HOME}}}"
 Environment="TEZPEAK_CONFIG_FILE={{{ROOT_DIR}}}/config.hjson"
 
 WorkingDirectory={{{ROOT_DIR}}}/data

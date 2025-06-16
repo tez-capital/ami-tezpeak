@@ -6,38 +6,25 @@ ami_assert(type(user) == "string", "User not specified...", EXIT_INVALID_CONFIGU
 
 local possible_residues = { }
 
-local tezpeak_services = {
+local active_services = {
 	[tezpeak_service_id] = am.app.get_configuration("TEZPEAK_SERVICE_FILE", "__tezpeak/assets/tezpeak")
 }
 
-local tezpeak_service_names = {}
-for k, _ in pairs(tezpeak_services) do
-        tezpeak_service_names[k:sub((#app_id + 2))] = k
+local active_names = {}
+for k, _ in pairs(active_services) do
+        active_names[k:sub((#app_id + 2))] = k
 end
 
-local all_names = util.clone(tezpeak_service_names)
-
-local function remove_all_services()
-	local service_manager = require"__xtz.service-manager"
-	service_manager = service_manager.with_options({ container = user })
-
-	local all = table.values(tezpeak_service_names)
-	all = util.merge_arrays(all, possible_residues)
-
-	for _, service in ipairs(all) do
-		if type(service) ~= "string" then goto CONTINUE end
-		local ok, err = service_manager.safe_remove_service(service)
-		if not ok then
-			ami_error("Failed to remove " .. service .. ": " .. (err or ""))
-		end
-		::CONTINUE::
-	end
-end
+--- cleanup names include everything including residues
+---@type string[]
+local cleanup_names = {}
+cleanup_names = util.merge_arrays(cleanup_names, table.values(active_names))
+cleanup_names = util.merge_arrays(cleanup_names, table.values(possible_residues))
 
 return {
 	tezpeak_service_id = tezpeak_service_id,
-	tezpeak_services = tezpeak_services,
-	tezpeak_service_names = tezpeak_service_names,
+	active = active_services,
+	active_names = active_names,
 	all_names = all_names,
-	remove_all_services = remove_all_services
+	cleanup_names = cleanup_names
 }
