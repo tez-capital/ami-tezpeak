@@ -19,6 +19,12 @@ service_manager.remove_services(services.cleanup_names) -- cleanup past install
 service_manager.install_services(services.active)
 log_success(am.app.get("id") .. " services configured")
 
+local user = am.app.get("user")
+if user ~= "root" then
+    -- set ownership of data directory to the user
+    service_manager.remove_services(services.cleanup_names, { container = user }) -- cleanup past install
+end
+
 -- adjust data directory permissions
 require"__xtz.base_utils".setup_file_ownership()
 
