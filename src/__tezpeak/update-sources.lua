@@ -145,3 +145,27 @@ new_content = new_content .. hjson.stringify(new_sources_map, { separator = true
 
 fs.write_file("src/__tezpeak/sources.hjson", new_content)
 print("Updated src/__tezpeak/sources.hjson")
+
+--------------------------------------------------------------------------------
+-- Update specs.json version
+--------------------------------------------------------------------------------
+
+if tezpeak_release then
+	local tezpeak_version = tezpeak_release.tag_name
+	local specs_raw = fs.read_file("src/specs.json")
+	local specs = hjson.parse(specs_raw)
+	local package_version = string.split(specs.version, "+", true)[1]
+	local current_tezpeak_version = string.split(specs.version, "+", true)[2]
+
+	-- Only update if tezpeak version changed
+	if current_tezpeak_version ~= tezpeak_version then
+		local package_version_parts = string.split(package_version, ".", true)
+		local package_version_patch = tonumber(package_version_parts[3]) + 1
+		package_version = package_version_parts[1] .. "." .. package_version_parts[2] .. "." .. package_version_patch
+		specs.version = package_version .. "+" .. tezpeak_version
+		fs.write_file("src/specs.json", hjson.stringify_to_json(specs, { indent = "    " }))
+		print("Updated src/specs.json to " .. specs.version)
+	else
+		print("specs.json already up to date (" .. specs.version .. ")")
+	end
+end
