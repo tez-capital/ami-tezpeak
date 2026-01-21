@@ -71,7 +71,7 @@ end
 -- Update Sources
 --------------------------------------------------------------------------------
 
-local current_sources = hjson.parse(fs.read_file("src/__tezpeak/sources.hjson"))
+local current_sources = hjson.parse(fs.read_file("src/__xtz/sources.hjson"))
 local new_sources_map = {}
 
 local platforms = {
@@ -143,8 +143,8 @@ local new_content = "// tezpeak SOURCE: https://github.com/tez-capital/tezpeak/r
 	"// arc SOURCE: https://github.com/alis-is/arc-releases/releases \n"
 new_content = new_content .. hjson.stringify(new_sources_map, { separator = true, sort_keys = true })
 
-fs.write_file("src/__tezpeak/sources.hjson", new_content)
-print("Updated src/__tezpeak/sources.hjson")
+fs.write_file("src/__xtz/sources.hjson", new_content)
+print("Updated src/__xtz/sources.hjson")
 
 --------------------------------------------------------------------------------
 -- Update specs.json version

@@ -6,10 +6,10 @@ if not version then
 end
 
 -- Update sources.hjson with new tezpeak version
-local sources_raw = fs.read_file("./src/__tezpeak/sources.hjson")
+local sources_raw = fs.read_file("./src/__xtz/sources.hjson")
 sources_raw = sources_raw:gsub("tezpeak/releases/download/%d-%.%d-%.%d-[^/]*", "tezpeak/releases/download/" .. version)
 sources_raw = sources_raw:gsub('version: [%d%.%-]+beta', "version: " .. version)
-fs.write_file("./src/__tezpeak/sources.hjson", sources_raw)
+fs.write_file("./src/__xtz/sources.hjson", sources_raw)
 
 -- Update specs.json with new package version
 local specs_raw = fs.read_file("./src/specs.json")
