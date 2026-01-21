@@ -1,0 +1,35 @@
+// tezpeak SOURCE: https://github.com/tez-capital/tezpeak/releases 
+// arc SOURCE: https://github.com/alis-is/arc-releases/releases 
+{
+	darwin-arm64: {
+		tezpeak: {
+			sha256: 49903ff18168e16afa5b5860c5613803d009153f8299464bc9ce2708f0dd30ef
+			url: https://github.com/tez-capital/tezpeak/releases/download/0.8.3-beta/tezpeak-macos-arm64
+			version: 0.8.3-beta
+		}
+	}
+	linux-arm64: {
+		arc: {
+			sha256: 198894be59f6e9cd5c4556cfe0a29ce2357871e9e2831be2867695f6253a7a4d
+			url: https://github.com/alis-is/arc-releases/releases/download/0.0.12/arc-aarch64-unknown-linux-musl
+			version: 0.0.12
+		}
+		tezpeak: {
+			sha256: 68e9df2e6bc0c59d8a7c926f1d080e4f8fd1683d019317fafe53a6cd6489a81b
+			url: https://github.com/tez-capital/tezpeak/releases/download/0.8.3-beta/tezpeak-linux-arm64
+			version: 0.8.3-beta
+		}
+	}
+	linux-x86_64: {
+		arc: {
+			sha256: c925fc11b9298caa3ef1e2886233a31226e0bb92d8f509b5f88c0afaa9e76fbe
+			url: https://github.com/alis-is/arc-releases/releases/download/0.0.12/arc-x86_64-unknown-linux-musl
+			version: 0.0.12
+		}
+		tezpeak: {
+			sha256: f7630afb992f7031b788a4b4b99492b7c4161d56cf13d989cb25961cb9f8f9fa
+			url: https://github.com/tez-capital/tezpeak/releases/download/0.8.3-beta/tezpeak-linux-amd64
+			version: 0.8.3-beta
+		}
+	}
+}
