@@ -1,7 +1,7 @@
 -- tezpeak SOURCE: https://github.com/tez-capital/tezpeak/releases
 -- arc SOURCE: https://github.com/alis-is/arc-releases/releases
 -- usage:
--- eli src/__tezpeak/update-sources.lua
+-- eli src/__xtz/update-sources.lua [version]
 
 local hjson = require "hjson"
 
@@ -11,8 +11,12 @@ local http_options = nil
 -- GitHub Fetching Helper
 --------------------------------------------------------------------------------
 
-local function fetch_github_release(repo)
-	print("Fetching releases from " .. repo .. "...")
+local function fetch_github_release(repo, version)
+	if version then
+		print("Fetching release " .. version .. " from " .. repo .. "...")
+	else
+		print("Fetching latest release from " .. repo .. "...")
+	end
 	local url = "https://api.github.com/repos/" .. repo .. "/releases"
 	local response = net.download_string(url, http_options)
 
@@ -23,6 +27,15 @@ local function fetch_github_release(repo)
 
 	local releases = hjson.parse(response)
 	if not releases or #releases == 0 then
+		return nil
+	end
+
+	if version then
+		for _, release in ipairs(releases) do
+			if release.tag_name == version or release.tag_name == "v" .. version then
+				return release
+			end
+		end
 		return nil
 	end
 
@@ -51,8 +64,8 @@ end
 -- Fetch Releases
 --------------------------------------------------------------------------------
 
--- 1. Tezpeak (Latest)
-local tezpeak_release = fetch_github_release("tez-capital/tezpeak")
+-- 1. Tezpeak
+local tezpeak_release = fetch_github_release("tez-capital/tezpeak", arg[1])
 if tezpeak_release then
 	print("Found Tezpeak release: " .. tezpeak_release.tag_name)
 else
