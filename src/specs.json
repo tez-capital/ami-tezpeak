@@ -4,6 +4,6 @@
             "id": "xtz.base"
         }
     ],
-    "version": "0.10.3+0.8.5-beta",
-    "id": "tzc.tezpeak"
+    "id": "tzc.tezpeak",
+    "version": "0.10.4+0.8.6-beta"
 }
