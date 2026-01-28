@@ -5,7 +5,13 @@ return {
             description = "ami 'info' sub command",
             summary = 'Prints runtime info and status of the app',
             action = '__tezpeak/info.lua',
-            context_fail_exit_code = EXIT_APP_INFO_ERROR
+            options = {
+                ["services"] = {
+                    description = "Prints info about services",
+                    type = "boolean"
+                },
+            },
+            context_fail_exit_code = EXIT_APP_INFO_ERROR,
         },
         setup = {
             options = {
@@ -83,13 +89,15 @@ return {
                         return
                     else
                         log_warn('Configuration file already exists. Will be renamed to config.hjson.bak')
-                        if not os.rename('config.hjson', 'config.hjson.bak') then 
-                            log_error('Failed to rename configuration file. Aborting auto-detection. Please rename the file manually and try again.')
+                        if not os.rename('config.hjson', 'config.hjson.bak') then
+                            log_error(
+                                'Failed to rename configuration file. Aborting auto-detection. Please rename the file manually and try again.')
                             return
                         end
                     end
                 end
-                local result = am.execute_external('bin/tezpeak', {}, { inject_args = { "--root-dir", options.root or '..', "--autodetect-configuration", "config.hjson" } })
+                local result = am.execute_external('bin/tezpeak', {},
+                    { inject_args = { "--root-dir", options.root or '..', "--autodetect-configuration", "config.hjson" } })
                 ami_assert(result == 0, "Failed to auto-detect configuration", EXIT_APP_INTERNAL_ERROR)
             end,
             context_fail_exit_code = EXIT_APP_INTERNAL_ERROR
