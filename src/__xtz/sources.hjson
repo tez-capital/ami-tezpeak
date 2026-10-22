@@ -3,9 +3,9 @@
 {
 	darwin-arm64: {
 		tezpeak: {
-			sha256: f7f4967f6f55ce724800c47a31fd217f5c2b66a6c3dae0dce21c82135f17b59b
-			url: https://github.com/tez-capital/tezpeak/releases/download/0.8.10-beta/tezpeak-macos-arm64
-			version: 0.8.10-beta
+			sha256: 1fa107d7bf33041221ea554bdab73909f2726c1e88e5e9e46f4e542ef5c811e0
+			url: https://github.com/tez-capital/tezpeak/releases/download/0.9.0-beta/tezpeak-macos-arm64
+			version: 0.9.0-beta
 		}
 	}
 	linux-arm64: {
@@ -15,9 +15,9 @@
 			version: 0.0.12
 		}
 		tezpeak: {
-			sha256: 202db87b4c7439a476741fece19baf468c661b8e6f46b7130a7e7979052412d9
-			url: https://github.com/tez-capital/tezpeak/releases/download/0.8.10-beta/tezpeak-linux-arm64
-			version: 0.8.10-beta
+			sha256: f657fa89c1e7b7f5a79da974d1e541c41cdced47bffe0891167fc6834ca12e3f
+			url: https://github.com/tez-capital/tezpeak/releases/download/0.9.0-beta/tezpeak-linux-arm64
+			version: 0.9.0-beta
 		}
 	}
 	linux-x86_64: {
@@ -27,9 +27,9 @@
 			version: 0.0.12
 		}
 		tezpeak: {
-			sha256: 988366144ae6889a64c73d8e0c099f36151b8cf611a5160e2d1ad5539f5991e3
-			url: https://github.com/tez-capital/tezpeak/releases/download/0.8.10-beta/tezpeak-linux-amd64
-			version: 0.8.10-beta
+			sha256: 00deba4f95752b38440d61202b0c1d3f1c98819f2252063513431cc51b321f22
+			url: https://github.com/tez-capital/tezpeak/releases/download/0.9.0-beta/tezpeak-linux-amd64
+			version: 0.9.0-beta
 		}
 	}
 }
